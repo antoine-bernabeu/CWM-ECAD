@@ -24,18 +24,15 @@ module mux(
     //Todo: define inputs here
 	input a,
 	input b,
-	input [1:0] sel,
-	output out,
+	input sel,
+	output out
     );
     
     //Todo: define registers and wires here
 	wire out;
+
     //Todo: define your logic here
-	#5
-	assign out=
-	if(sel==0)
-		assign out=a;
-	else
-		assign out=b;              
+	assign #5 out=(sel==0)?a:
+		  b;	         
       
 endmodule
