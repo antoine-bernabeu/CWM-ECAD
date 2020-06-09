@@ -22,7 +22,7 @@ module top_tb(
     reg enable;
     reg direction;
     reg err;
-    reg [7:0] counter_out;
+    wire [7:0] counter_out;
     reg [7:0] counter_prev;
 
 
@@ -58,7 +58,7 @@ module top_tb(
 	enable=1;
 	direction=1;
 	counter_prev=counter_out;
-	#1
+	#(CLK_PERIOD)
 	if(counter_prev+1!=counter_out)
 	begin
 		$display("***TEST_FAILED! counter up doesn't work");
@@ -70,7 +70,7 @@ module top_tb(
 	enable=1;
 	direction=0;
 	counter_prev=counter_out;
-	#1
+	#(CLK_PERIOD)
 	if(counter_prev-1!=counter_out)
 	begin
 		$display("***TEST_FAILED! counter down doesn't work");
@@ -81,7 +81,7 @@ module top_tb(
 	enable=0;
 	direction=1;
 	counter_prev=counter_out;
-	#1
+	#(CLK_PERIOD)
 	if(counter_prev!=counter_out)
 	begin
 		$display("***TEST_FAILED! counter freeze doesn't work");
@@ -92,7 +92,7 @@ module top_tb(
     //Todo: Finish test, check for success
     initial 
     begin
-       #50
+       #100
        if (err==0)
          $display("***TEST PASSED! :) ***");
        $finish;
