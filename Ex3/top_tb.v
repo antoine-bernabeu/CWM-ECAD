@@ -13,93 +13,97 @@
 module top_tb(
     );
 
-//Todo: Parameters
-parameter CLK_PERIOD = 10;
+    //Todo: Parameters
+    parameter CLK_PERIOD = 10;
 
-//Todo: Regitsers and wires
-reg clk, rst, enable, direction, err;
-reg [7:0] counter;
-reg [7:0] counter_prev;
+    //Todo: Regitsers and wires
+    reg clk;
+    reg rst;
+    reg enable;
+    reg direction;
+    reg err;
+    reg [7:0] counter_out;
+    reg [7:0] counter_prev;
 
 
-//Todo: Clock generation
-initial
-begin
-   clk = 1'b0;
-   forever
-     #(CLK_PERIOD/2) clk=~clk;
- end
-
-//Todo: User logic
-initial
-begin
-  rst=1;
-  counter=0;
-  counter_prev=counter;
-  enable=0;
-  direction=0;
-
-  #20
-  if(counter!=0)
+    //Todo: Clock generation
+    initial
     begin
-    $display("***TEST_FAILED! counter not 0 with rst=1 and enable=0")
-    err=1;
+       clk = 1'b0;
+       forever
+         #(CLK_PERIOD/2) clk=~clk;
     end
-  // Testing counter up
-  direction=1;
-  rst=0;
-  enable=1;
-  counter_prev=counter;
 
-  #CLK_PERIOD
-  if(counter_prev!=counter-1)
-  begin
-    $display("TEST_FAILED! counter up not working correctly")
-    err=1;
-  end
+    //Todo: User logic
+    initial
+    begin
+       err=0;
+       enable=0;
+       direction=0;
+       rst=0;
+       #5
+       forever begin
+	  #5
+	  rst=1;
+	  #5
+	  //Testing reset
+	  if(counter_out!=0)
+	begin
+			$display("***TEST_FAILED! reset doesn't work");
+			err=1;
+	end
+	#5
+	//Testing counter up
+	rst=0;
+	enable=1;
+	direction=1;
+	counter_prev=counter_out;
+	#1
+	if(counter_prev+1!=counter_out)
+	begin
+		$display("***TEST_FAILED! counter up doesn't work");
+		err=1;
+	end
+	#5
+	//Testing counter_down
+	rst=0;
+	enable=1;
+	direction=0;
+	counter_prev=counter_out;
+	#1
+	if(counter_prev-1!=counter_out)
+	begin
+		$display("***TEST_FAILED! counter down doesn't work");
+	end
+	#5
+	//Testing freeze
+	rst=0;
+	enable=0;
+	direction=1;
+	counter_prev=counter_out;
+	#1
+	if(counter_prev!=counter_out)
+	begin
+		$display("***TEST_FAILED! counter freeze doesn't work");
+		err=1;
+	end
+	end
+    end		
+    //Todo: Finish test, check for success
+    initial 
+    begin
+       #50
+       if (err==0)
+         $display("***TEST PASSED! :) ***");
+       $finish;
+    end
 
-  #10
-  //Testing counter down
-  direction=0;
-  rst=0;
-  enable=1;
-  counter_prev=counter;
-
-  #CLK_PERIOD
-  if(counter_prev!=counter-1)
-  begin
-    $display("TEST_FAILED! counter down not working correctly")
-    err=1;
-  end
-
-  #10
-  //Testing enable=0
-  direction=0;
-  rst=0;
-  enable=0;
-  counter_prev=counter;
-
-  #CLK_PERIOD
-  if(counter_prev!=counter)
-  begin
-    $display("TEST_FAILED! enable=0 doesn't stop counter")
-    err=1;
-  end
-
-//Todo: Finish test, check for success
-initial begin
-  #50
-  if (err==0)
-    $display("***TEST PASSED! :) ***");
-  $finish;
-end
-
-//Todo: Instantiate counter module
-mux top (
- .clk (clk),
- .rst (rst),
- .enable (enable),
- .direction (direction),
- .counter_out (counter)
- );
+	//Todo: Instantiate counter module
+	counter top (
+ 	.clk (clk),
+ 	.rst (rst),
+ 	.enable (enable),
+ 	.direction (direction),
+ 	.counter_out (counter_out)
+ 	);
 endmodule

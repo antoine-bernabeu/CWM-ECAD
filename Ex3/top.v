@@ -24,21 +24,21 @@ module counter(
     input rst,
     input enable,
     input direction,
-    output reg [7:0] counter_out
+    output[7:0] counter_out
     );
 
     //Todo: add registers and wires, if needed
-
+    reg [7:0] counter_reg;
     //Todo: add user logic
-
+    assign counter_out=counter_reg;	
     always@(posedge clk or posedge rst)
       if(rst)
-        counter_out<=0;
+        counter_reg<=0;
       else
         if(enable)
           if(direction)
-            counter_out<=counter_out+1;
+            counter_reg<=counter_reg+1;
           else
-            counter_out<=counter_out-1;
+            counter_reg<=counter_reg-1;
 
 endmodule
