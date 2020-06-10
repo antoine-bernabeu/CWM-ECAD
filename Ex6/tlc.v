@@ -15,7 +15,7 @@
 
 `timescale 1ns / 100ps
 
-module tlc(
+module tlc_module(
     input clk,
     output reg red,
     output reg amber,

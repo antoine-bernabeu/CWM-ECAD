@@ -20,7 +20,7 @@
 
 `timescale 1ns / 100ps
 
-module mux(
+module mux_module(
     //Todo: define inputs here
 	input a,
 	input b,

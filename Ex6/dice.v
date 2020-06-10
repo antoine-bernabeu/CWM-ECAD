@@ -18,16 +18,13 @@
 
 `timescale 1ns / 100ps
 
-module dice (
+module dice_module (
         input clk,
         input rst,
         input button,
         output reg[2:0] throw
             );
-initial
-begin
-	throw<=3'b000;
-end
+
 always @(clk,rst,button)
 begin
     if(rst)
