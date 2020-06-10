@@ -31,14 +31,14 @@ begin
         throw<=3'b000;
      else
         if(throw==3'b000 || throw==3'b111)
-        begin
             throw<=3'b001;
-        end
         else
             if(button==1'b1)
-            begin
-            throw<=throw+1'b1;
-            end
+		if(throw==3'b110)
+			throw<=3'b001;
+		else
+		        throw<=throw+1'b1;
+
 end
 
 endmodule

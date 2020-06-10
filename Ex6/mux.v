@@ -29,7 +29,7 @@ module mux_module(
     );
 
     //Todo: define registers and wires here
-	wire out;
+	wire [2:0]out;
 
     //Todo: define your logic here
 	assign out=(sel==0)?a:

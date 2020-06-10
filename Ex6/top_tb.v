@@ -37,29 +37,41 @@ module top_tb(
         sel=0;
         button=0;
         err=0;
-        #CLK_PERIOD
+        #(CLK_PERIOD/2)
         if(result!=3'b000)
         begin
             $display("***TEST_FAILED! reset and sel dice, reset rst%d, select sel%d",rst,sel);
             err=1;
         end
-        #(CLK_PERIOD*3)
+        #(CLK_PERIOD)
         rst=0;
         forever
         begin
+        sel=0;
         button=1;
-        #20
+        #10
         result_prev=result;
-        #CLK_PERIOD
-        if(result!=result_prev+1)
+        #(CLK_PERIOD/2)
+        if(result_prev==3'b110)
         begin
-            $display("***TEST_FAILED! dice, result%d, result_prev%d",result,result_prev);
-            err=1;
+            if(result!=3'b001)
+            begin
+                $display("***TEST_FAILED! dice, reantrance");
+                err=1;
+            end
+         end
+         else
+         begin
+            if(result!=result_prev+1)
+                begin
+                    $display("***TEST_FAILED! dice, result%d, result_prev%d",result,result_prev);
+                    err=1;
+                end
         end    
         sel=1;
-        #20
+        #10
         result_prev=result;
-        #CLK_PERIOD
+        #(CLK_PERIOD/2)
         if((result_prev==3'b001 && result!=3'b010) || (result_prev==3'b010 && result!=3'b100) || (result_prev==3'b100 && result!=3'b110) || (result_prev==3'b110 && result!=3'b001))
         begin
             $display("***TEST_FAILED! bad output with light, result%b, result_prev%b", result, result_prev);

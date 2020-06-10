@@ -36,14 +36,15 @@ wire amber;
 wire green;
 
 wire [2:0] light;
+assign light[0]=green;
+assign light[1]=amber;
+assign light[2]=red;
+mux_module mux(.a(throw),.b(light),.sel(sel),.out(res));
 
 dice_module dice(.clk(clk),.rst(rst),.button(button),.throw(throw));
 tlc_module tlc(.clk(clk),.red(red),.amber(amber),.green(green));
 
-assign light[0]=green;
-assign light[1]=amber;
-assign light[2]=red;
 
-mux_module mux(.a(throw),.b(light),.sel(sel),.out(res));
+
 assign result=res;
 endmodule
