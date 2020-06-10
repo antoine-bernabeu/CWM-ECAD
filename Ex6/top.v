@@ -29,7 +29,7 @@ module dice_light(
             input sel,
             output [2:0] result
             );
-wire throw;
+wire [2:0]throw_internal;
 wire red;
 wire amber;
 wire green;
@@ -40,11 +40,12 @@ wire [2:0] res;
 dice dice(clk,rst,button,throw);
 tlc tlc(clk,red,amber,green);
 
+assign throw_internal=throw;
 assign light[0]=green;
 assign light[1]=amber;
 assign light[2]=red;
 
-mux mux(throw,light,sel,res);
+mux mux(throw_internal,light,sel,res);
 
 assign result=res;
 endmodule
