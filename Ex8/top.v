@@ -27,6 +27,8 @@ wire arready_output;
 wire [1:0] rresp_output;
 wire rvalid_output;
 wire [31:0]rdata_output;
+wire [31:0] addr;
+assign addr={some_zero,a,b};
 assign some_zero=26'b0;
 assign result[0]=rdata_output[0];
 assign result[1]=rdata_output[1];

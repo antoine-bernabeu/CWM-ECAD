@@ -40,6 +40,8 @@ module top_tb(
         b=0;
         rst=0;
         #CLK_PERIOD
+        rst=1;
+        #CLK_PERIOD
         if(result!=0)
             begin
                 $display("***TEST_FAILED! 0x0!=result%d",result);
