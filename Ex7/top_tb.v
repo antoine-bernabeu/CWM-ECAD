@@ -49,7 +49,7 @@ module top_tb(
         forever
         begin
             //Testing table of 6
-            #CLK_PERIOD
+            #(CLK_PERIOD*3)
             if(result!=(a*b))
                 begin
                     $display("***TEST_FAILED! a%d*b%d!=result%d",a,b,result);
@@ -61,7 +61,7 @@ module top_tb(
     //Todo: Finish test, check for success
     initial 
     begin
-       #200
+       #600
        if (err==0)
          $display("***TEST PASSED! :) ***");
        $finish;

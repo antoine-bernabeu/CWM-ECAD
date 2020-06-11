@@ -38,45 +38,41 @@ module top_tb(
         rst=0;
         err=0;
         button=0;
-        #15
+        #5
         //Testing Initialisation
         if(throw!=3'b001)
-	   begin
-		  $display("***TEST_FAILED! INIT");
-		  err=1;
-	   end
-        //Testing incrementation
-        forever begin
-        button=1;
-        rst=0;
-        throw_prev=throw;
-        #CLK_PERIOD  
-        if(throw_prev==3'b111)
-            if(throw!=3'b001)
-            begin
-                $display("***TEST_FAILED! after 7, not going to 1");
-                err=1;
-            end 
-        else
-            if(throw!=throw_prev+1)
-            begin
-                $display("***TEST_FAILED! increment");
-                err=1;
-            end
-        #10
-        rst=1;
-        #CLK_PERIOD
-        if(throw!=3'b000)
+	begin
+		$display("***TEST_FAILED! INIT");
+		err=1;
+	end
+    //Testing incrementation
+    forever begin
+      throw_prev=throw;
+      #CLK_PERIOD  
+      if(throw_prev==3'b111)
+        if(throw!=3'b001)
         begin
-            $display("***TEST_FAILED reset");
+            $display("***TEST_FAILED! after 7, not going to 1");
+            err=1;
+        end 
+      else
+        if(throw!=throw_prev+1)
+        begin
+            $display("***TEST_FAILED! increment");
             err=1;
         end
-        rst=0;
-        #5
-        throw_prev=throw;
-        button=0;
-        #CLK_PERIOD
-        if(throw_prev==3'b000 ||throw_prev==3'b111)
+       #10
+       rst=1;
+       if(throw!=3'b000)
+       begin
+            $display("***TEST_FAILED reset");
+            err=1;
+       end
+       #5
+       throw_prev=throw;
+       button=0;
+       #CLK_PERIOD
+       if(throw_prev==3'b000 ||throw_prev==3'b111)
             if(throw!=3'b001)
             begin
                 $display("***TEST_FAILED! edge with button 0");
@@ -88,8 +84,8 @@ module top_tb(
                 $display("***TEST_FAILED freeze dice");
                 err=1;
             end   
-       end
-   end    	
+    end
+    end    	
     //Todo: Finish test, check for success
     initial 
     begin
