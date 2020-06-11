@@ -22,21 +22,14 @@ module multiplier(
             input enable,
             output [5:0]result
             );
-wire [25:0] some_zero;
 wire arready_output;
 wire [1:0] rresp_output;
 wire rvalid_output;
 wire [31:0]rdata_output;
 wire [31:0] addr;
-assign addr={some_zero,a,b};
-assign some_zero=26'b0;
-assign result[0]=rdata_output[0];
-assign result[1]=rdata_output[1];
-assign result[2]=rdata_output[2];
-assign result[3]=rdata_output[3];
-assign result[4]=rdata_output[4];
-assign result[5]=rdata_output[5];
+assign addr={25'b0,a,b}<<2;
+assign result=rdata_output[5:0];
 
-blk_mem_gen_0 blk_mem_gen_0(.s_aclk(clk),.s_aresetn (rst),.s_axi_araddr({some_zero,a,b}),.s_axi_arvalid(1'b1),.s_axi_arready(arready_output),.s_axi_rresp (rresp_output),.s_axi_rvalid (rvalid_output),.s_axi_rready (1'b1),.s_axi_rdata(rdata_output));
+blk_mem_gen_0 blk_mem_gen_0(.s_aclk(clk),.s_aresetn (rst),.s_axi_araddr({25'b0,a,b}<<2),.s_axi_arvalid(1'b1),.s_axi_arready(arready_output),.s_axi_rresp (rresp_output),.s_axi_rvalid (rvalid_output),.s_axi_rready (1'b1),.s_axi_rdata(rdata_output));
 
 endmodule
