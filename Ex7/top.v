@@ -21,7 +21,6 @@ module multiplier(
             input enable,
             output [5:0]result
             );
-
 blk_mem_gen_0 blk_mem_gen_0(.clka(clk),.douta(result),.ena(enable),.wea(1'b0),.addra({a,b}));
 
 endmodule

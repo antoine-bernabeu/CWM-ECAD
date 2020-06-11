@@ -45,6 +45,7 @@ module top_tb(
             end
         a=6;
         b=0;
+        #CLK_PERIOD
         forever
         begin
             //Testing table of 6
